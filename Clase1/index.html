@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.js CDN</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="container">
+            <div class="jumbotron mt-3">
+                <h1>Bienvenido a VueJS</h1>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <br>
+                <h4><u>Interpolación / v-text / v-html</u></h4>
+                <br>
+                <p>{{mensaje}}</p>
+                <p v-text="mensaje"></p>
+                <p v-html="mensaje"></p>
+                <hr>
+                <p>{{mensajeHTML}}</p>
+                <p v-text="mensajeHTML"></p>
+                <p v-html="mensajeHTML"></p>
+                <hr>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <h4><u>Property Binding - v-bind</u></h4>
+                <input type="text" value="123"><br>
+                <input type="text" value="valor"><br>
+                <input type="text" v-bind:value="valor"> {{valor}}<br>
+                <input type="text" :value="valor"> {{valor}}<br>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>Event Binding - v-on</u></h4>
+                <button class="btn btn-success my-3" v-on:click="contador++">Contar {{contador}}</button>
+                <button class="btn btn-success my-3" @click="contador2++">Contar {{contador2}}</button>
+                <button class="btn btn-success my-3" @click="incrementar()">Contar {{getContador()}}</button>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>Doble data Binding - v-model</u></h4>
+                <br>
+                <h5>Manual</h5>
+                <input type="text" :value="valor2" @input="actualizar($event)"> {{ valor2 }} <br>
+                <br>
+                <h5>Automatico</h5>
+                <input type="text" v-model="valor3"> {{ valor3 }} <br>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>v-if</u></h4>
+                <button 
+                    class="btn btn-warning my-3"
+                    @click="mostrar=!mostrar">{{mostrar? 'Ocultar':'Mostrar'}}
+                </button>
+
+                <p v-if="mostrar" class="alert alert-warning">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem perspiciatis, et est rerum libero minima at nemo iste, culpa quibusdam facere, debitis nostrum. Totam debitis deserunt quaerat a numquam blanditiis.
+                </p>
+                <p v-else class="alert alert-danger">
+                    elemento removido                    
+                </p>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>v-show</u></h4>
+                <button 
+                    class="btn btn-warning my-3"
+                    @click="cambiarVisibilidad()">{{obtenerTituloVisibilidad()}}
+                </button>
+                <p v-show="visibilidad()" class="alert alert-info">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem perspiciatis, et est rerum libero minima at nemo iste, culpa quibusdam facere, debitis nostrum. Totam debitis deserunt quaerat a numquam blanditiis.
+                </p>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>v-for</u></h4>
+                <ul class="alert alert-info">
+                    <li v-for="(usuario, index) in usuarios">
+                        {{ index + 1 }} - {{ usuario }}
+                    </li>
+                </ul>
+                <hr>
+
+                <button class="btn btn-warning my-3" @click="agregar()">Agregar Alumno</button>
+                <div v-if="alumnos.length">
+                    <table class="table">
+                        <tr class="bg-success text-white">
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Curso</th>
+                            <th>Foto</th>
+                        </tr>
+
+                        <tr class="bg-info text-white" v-for="(alumno, index) in alumnos">
+                            <td>{{ index+1 }}</td>
+                            <td>{{ alumno.nombre }}</td>
+                            <td>{{ alumno.apellido }}</td>
+                            <td>{{ alumno.edad }}</td>
+                            <td>{{ alumno.curso? 'Si':'No' }}</td>
+                            <td>
+                                <img :src="alumno.foto" width="50" :alt="alumno.nombre">
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="alert alert-info">
+                        {{ calcularAlumnosCurso.cantidad }} alumnos hicieron el curso de un total de {{ calcularAlumnosCurso.total}}
+                    </div>
+                </div>
+                <div v-else class="alert alert-danger">
+                    No se encontraron alumnos
+                </div>
+
+                <hr>
+
+                <div class="media alert alert-danger" v-for="(alumno, index) in alumnos">
+                    <img :src="alumno.foto" width="150" :alt="alumno.nombre">
+                    <div class="media-body ml-3">
+                        <h6><u>ID: {{index + 1}}</u></h6>
+                        <p>Nombre: <a :href="alumno.foto">{{alumno.nombre}} {{alumno.apellido}}</a></p>
+                        <p>Edad: <i>{{alumno.edad}}</i></p>
+                        Hizo el curso <input type="checkbox" v-model="alumno.curso">
+                        <button class="btn btn-danger mx-3" @click="borrar(index)">X</button>
+                    </div>
+                </div>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>v-else-if</u></h4>
+                <input type="text" v-model="nombre"><br>
+                <div class="btn btn-success mt-3">
+                    <div v-if="nombre=='Juan'">
+                        Bienvenido Juan
+                    </div>
+                    <div v-else-if="nombre=='Ana'">
+                        Bienvenida Ana
+                    </div>
+                    <div v-else-if="nombre=='Jose'">
+                        Bienvenido Jose
+                    </div>
+                    <div v-else>
+                        Bienvenido
+                    </div>
+                </div>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>:style</u></h4>
+
+                <button class="btn btn-success my-3" @click="estado1=!estado1">Cambiar</button>
+                <p :style="{ color: 'white', backgroundColor: estado1? 'green':'red', borderRadius: '10px', padding: '10px'}">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ipsum libero obcaecati odit harum, numquam, quis velit qui quisquam iusto, quae atque. Perferendis id fugit illum maxime possimus non neque?
+                </p>
+                
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>:class</u></h4>
+
+                <!-- <button class="btn btn-success my-3" @click="estado2=!estado2">Cambiar</button>
+                <p :class="{ 'alert': true, 'alert-success': estado2, 'alert-danger': !estado2}">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ipsum libero obcaecati odit harum, numquam, quis velit qui quisquam iusto, quae atque. Perferendis id fugit illum maxime possimus non neque?
+                </p> -->
+
+                <button class="btn btn-success my-3" @click="estado2=!estado2">Cambiar</button>
+                <p :class="['text-white',{ 'bg-success': estado2, 'bg-danger': !estado2}]">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ipsum libero obcaecati odit harum, numquam, quis velit qui quisquam iusto, quae atque. Perferendis id fugit illum maxime possimus non neque?
+                </p>
+
+
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <!-- -------------------------------------------------------- -->
+                <hr>
+                <h4><u>Componentes</u></h4>
+
+                <contador valor-inicial="123"></contador>
+                <contador valor-inicial="456"></contador>
+                <contador valor-inicial="789"></contador>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
